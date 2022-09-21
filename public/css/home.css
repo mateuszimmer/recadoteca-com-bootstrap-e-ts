@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&family=Titan+One&display=swap');
+
+body {
+    /* background-image: linear-gradient(90deg, #ffafcc, #a2d2ff); */
+    margin: 0;
+    padding: 0;
+    /* color: #555; */
+    padding-top: 90px;
+}
+
+.titulo-header {
+    font-family: Roboto;
+    text-transform: uppercase;
+}

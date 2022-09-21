@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/index.css">
+
+    <title>RecadoTeca | Acessar</title>
+</head>
+<body class="bg-light vh-100 d-flex align-items-center">
+    <main class="container br-20 shadow bg-whi  te">
+        <div class="row d-flex align-items-center p-3">
+
+            <div class="col-lg-8 d-flex justify-content-center align-items-center d-none d-md-inline-block">
+                    <img class="img-thumbnail img-fluid br-20" src="./images/liberdade.jpg" alt="liberdade">
+            </div>
+
+            <div class="col-lg-4 text-center">
+                
+                <div class="container d-flex align-items-center p-4">
+                    <div class="container-fluid d-flex flex-column align-items-center row">
+                        <div class="container col-8">
+                            <img class="img-fluid w-50 mb-2" src="./images/icone.png" alt="logo">
+                        </div>
+
+                        <h1 class="h1 text-primary mb-4 titulo"><strong>Recado<span class="text-muted">teca</span></strong></h1>
+                        
+                        <div class="container-fluid">
+                            <form id="form_entrar d-flex justify-content-center"> 
+                                <div class="form-group mb-2 d-flex justify-content-center">
+                                    <input class="form-control" type="text" name="input_usuario" id="usuarioLoggin" placeholder="Usuário">
+                                </div>
+                                <div class="form-group mb-2 d-flex justify-content-center">
+                                    <input class="form-control" type="password" name="input_senha" id="senhaLoggin" placeholder="Senha">
+                                </div>
+                                
+                                <input class="btn btn-primary mb-3" type="submit" value="Entrar" id="botao_entrar">
+                                
+                                <p class=""><a href="#" data-bs-toggle="modal" data-bs-target="#modalCriarConta">Não possui conta? <span>Criar conta</span></a></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#modalContaCriadaComSucesso">Abrir modal</a> -->
+            </div>
+        </div>
+    </main>
+    
+    <!-- Modal Criar Conta -->
+    <div class="modal fade" id="modalCriarConta" tabindex="-1" aria-labelledby="modalCriarContaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCriarContaLabel">Criar Conta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formulario-cadastro">
+                <div class="modal-body">
+                    <p>Preencha as informações abaixo para criar uma nova conta:</p>
+
+                        <div class="form-group mb-2 d-flex justify-content-center">
+                            <input type="text" minlength="5" class="form-control" name="input_usuario" id="usuarioCadastro" placeholder="Usuário" required>
+                        </div>
+                        <div class="form-group mb-2 d-flex justify-content-center">
+                            <input type="password" minlength="4" class="form-control" name="input_senha" id="senhaCadastro" placeholder="Senha" required>
+                        </div>
+                        <div class="form-group mb-2 d-flex justify-content-center">
+                            <input type="password" minlength="4" class="form-control" name="inputConfirmaSenha" id="confirmaSenha" placeholder="Confirme a Senha" required>
+                        </div>
+
+                        <div id="liveAlertPlaceholder"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <input type="submit" id="botaoCadastrar" class="btn btn-primary" value="Criar Conta"></input>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+
+    <!-- modal sucesso -->
+    <div class="modal fade" id="modalContaCriadaComSucesso" tabindex="-1" aria-labelledby="modalCriarContaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title " id="modalCriarContaLabel">Parabéns!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Sua conta foi criada com sucesso! Você já pode acessá-la.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script src="./javascript/index.js"></script>
+</body>
+</html>
