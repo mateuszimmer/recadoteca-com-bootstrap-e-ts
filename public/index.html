@@ -29,14 +29,14 @@
                         <h1 class="h1 text-primary mb-4 titulo"><strong>Recado<span class="text-muted">teca</span></strong></h1>
                         
                         <div class="container-fluid">
-                            <form id="form_entrar d-flex justify-content-center"> 
+                            <form id="formEntrar"> 
                                 <div class="form-group mb-2 d-flex justify-content-center">
-                                    <input class="form-control" type="text" name="input_usuario" id="usuarioLoggin" placeholder="Usuário">
+                                    <input class="form-control" type="text" name="input_usuario" id="usuarioLogin" placeholder="Usuário">
                                 </div>
                                 <div class="form-group mb-2 d-flex justify-content-center">
-                                    <input class="form-control" type="password" name="input_senha" id="senhaLoggin" placeholder="Senha">
+                                    <input class="form-control" type="password" name="input_senha" id="senhaLogin" placeholder="Senha">
                                 </div>
-                                
+                                <div id="alertaErroLogin"></div>
                                 <input class="btn btn-primary mb-3" type="submit" value="Entrar" id="botao_entrar">
                                 
                                 <p class=""><a href="#" data-bs-toggle="modal" data-bs-target="#modalCriarConta">Não possui conta? <span>Criar conta</span></a></p>
