@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
         location.assign('index.html');
     }
 });
+// ------ Modo Dark ------
 const modoD = localStorage.getItem('dark') || "";
 if (modoD === 'true') {
     document.body.classList.add('dark-theme');
@@ -14,6 +15,19 @@ else {
     document.body.classList.remove('dark-theme');
     localStorage.setItem('dark', 'false');
 }
+const darkModeH = document.querySelector("#toggleButton");
+darkModeH.addEventListener("click", () => {
+    // document.body.classList.toggle('dark-theme');
+    const modo = localStorage.getItem('dark') || "";
+    if (modo === 'false') {
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('dark', 'true');
+    }
+    else {
+        document.body.classList.remove('dark-theme');
+        localStorage.setItem('dark', 'false');
+    }
+});
 //---------- Carregar nome do Usuário no HTML -----------
 carregarNomeDoUsuarioNoHTML();
 function carregarNomeDoUsuarioNoHTML() {
@@ -43,7 +57,6 @@ const formularioCadastroRecadosHTML = document.querySelector('#formularioCadastr
 formularioCadastroRecadosHTML.addEventListener('submit', (e) => {
     e.preventDefault();
     salvarRecado();
-    formularioCadastroRecadosHTML.reset();
     modalRecados.toggle();
 });
 function salvarRecado() {
@@ -65,6 +78,9 @@ function salvarRecado() {
     localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
     salvaOUsuarioNaListaDeUsuarios(usuarioLogado);
     imprimeRecadosAtualizados();
+    inputHiddenHTML.value = '';
+    inputTituloRecadoHTML.value = '';
+    inputDescricaoRecadoHTML.value = '';
 }
 function salvaOUsuarioNaListaDeUsuarios(usuarioLogado) {
     const arrayDeUsuarios = JSON.parse(localStorage.getItem('usuariosLocalStorage') || "[]");
@@ -144,22 +160,15 @@ function apagarRecado(indice) {
 const botaoFecharModalHomeHTML = document.querySelectorAll('.botaoFecharModal');
 botaoFecharModalHomeHTML.forEach((e) => {
     e.addEventListener('click', () => {
-        formularioCadastroRecadosHTML.reset();
+        const inputHiddenHTML = document.querySelector('#inputPosicaoArray');
+        const inputTituloRecadoHTML = document.querySelector('#inputTituloRecado');
+        const inputDescricaoRecadoHTML = document.querySelector('#inputDescricaoRecado');
+        inputHiddenHTML.value = '';
+        inputTituloRecadoHTML.value = '';
+        inputDescricaoRecadoHTML.value = '';
     });
 });
-const darkModeH = document.querySelector("#toggleButton");
-darkModeH.addEventListener("click", () => {
-    // document.body.classList.toggle('dark-theme');
-    const modo = localStorage.getItem('dark') || "";
-    if (modo === 'false') {
-        document.body.classList.add('dark-theme');
-        localStorage.setItem('dark', 'true');
-    }
-    else {
-        document.body.classList.remove('dark-theme');
-        localStorage.setItem('dark', 'false');
-    }
-});
+// ------ Botão Sair ------
 const btnSair = document.getElementById('btnSair');
 btnSair.addEventListener('click', sair);
 function sair() {

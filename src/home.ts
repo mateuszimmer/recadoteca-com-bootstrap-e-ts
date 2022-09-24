@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', ():void => {
     }
 })
 
-
+// ------ Modo Dark ------
+ 
 const modoD = localStorage.getItem('dark') || ""
 
 if(modoD === 'true'){
@@ -17,9 +18,24 @@ if(modoD === 'true'){
     localStorage.setItem('dark', 'false');
 }
 
+const darkModeH = document.querySelector("#toggleButton")as HTMLButtonElement;
 
+darkModeH.addEventListener("click", () => {
+    // document.body.classList.toggle('dark-theme');
+    
+    const modo = localStorage.getItem('dark') || ""
 
+    if(modo === 'false'){
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('dark', 'true');
+    } else {
+        document.body.classList.remove('dark-theme');
+        localStorage.setItem('dark', 'false');
+    }
 
+});
+
+// ------ Interfaces utilizadas ------
 
 interface Usuario {
     usuario: string,
@@ -32,7 +48,6 @@ interface Recado {
     descricao: string
 }
 
-
 //---------- Carregar nome do Usuário no HTML -----------
 
 carregarNomeDoUsuarioNoHTML();
@@ -43,15 +58,14 @@ function carregarNomeDoUsuarioNoHTML():void{
     nomeDoUsuarioNoHTML.innerText = `${usuarioLogado.usuario}`
 }
 
-
 //---------- Buscar Usuário Logado no localStorage -------
 
 function buscarUsuarioLogadonoLocalStorage(): Usuario {
     return JSON.parse(localStorage.getItem('usuarioLogado') || '[]') as Usuario
 }
 
-
 //----------- Abrir Modal --------------
+
 carregaBotoesParaAbrirModal()
 
 function carregaBotoesParaAbrirModal(): void {
@@ -66,7 +80,6 @@ function carregaBotoesParaAbrirModal(): void {
     })
 }
 
-
 //------------- Salvar recado ---------------
 
 const formularioCadastroRecadosHTML = document.querySelector('#formularioCadastroRecados') as HTMLFormElement;
@@ -74,10 +87,8 @@ const formularioCadastroRecadosHTML = document.querySelector('#formularioCadastr
 formularioCadastroRecadosHTML.addEventListener('submit', (e) => {
     e.preventDefault();
     salvarRecado();
-    formularioCadastroRecadosHTML.reset();
     modalRecados.toggle();
 })
-
 
 function salvarRecado(){
     const inputHiddenHTML = document.querySelector('#inputPosicaoArray') as HTMLInputElement
@@ -96,12 +107,16 @@ function salvarRecado(){
     } else {
         usuarioLogado.recados.push(recadoParaSalvar)
     }
-    
+
     localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
-
+    
     salvaOUsuarioNaListaDeUsuarios(usuarioLogado)
-
+    
     imprimeRecadosAtualizados();
+
+    inputHiddenHTML.value = '';
+    inputTituloRecadoHTML.value = '';
+    inputDescricaoRecadoHTML.value = '';
 }
 
 function salvaOUsuarioNaListaDeUsuarios(usuarioLogado: Usuario){
@@ -111,8 +126,6 @@ function salvaOUsuarioNaListaDeUsuarios(usuarioLogado: Usuario){
     localStorage.setItem('usuariosLocalStorage', JSON.stringify(arrayDeUsuarios))
     localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
 }
-
-
 
 //------------ Imprime Recados Atualizados ---------
 
@@ -179,8 +192,8 @@ function adicionaClasses(elemento: HTMLElement, classes: string[]) {
     }
 }
 
-
 //--------------- Editar Recado -----------------
+
 function editarRecado(indice: number) {
     const inputHiddenHTML = document.querySelector('#inputPosicaoArray') as HTMLInputElement
     const inputTituloRecadoHTML = document.querySelector('#inputTituloRecado') as HTMLInputElement
@@ -193,17 +206,16 @@ function editarRecado(indice: number) {
     inputDescricaoRecadoHTML.value = usuarioLogado.recados[indice].descricao;
 }
 
-
 //--------------- Apagar Recado ------------------
 
 function apagarRecado(indice: number){
     const usuarioLogado: Usuario = buscarUsuarioLogadonoLocalStorage()
     usuarioLogado.recados.splice(indice, 1)
-
+    
     console.log(usuarioLogado)
 
     salvaOUsuarioNaListaDeUsuarios(usuarioLogado);
-
+    
     imprimeRecadosAtualizados();
 }
 
@@ -212,32 +224,16 @@ function apagarRecado(indice: number){
 const botaoFecharModalHomeHTML = document.querySelectorAll('.botaoFecharModal') as NodeListOf<Element>
 botaoFecharModalHomeHTML.forEach((e) => {
     e.addEventListener('click', () => {
-        formularioCadastroRecadosHTML.reset();
+        const inputHiddenHTML = document.querySelector('#inputPosicaoArray') as HTMLInputElement
+        const inputTituloRecadoHTML = document.querySelector('#inputTituloRecado') as HTMLInputElement
+        const inputDescricaoRecadoHTML = document.querySelector('#inputDescricaoRecado') as HTMLInputElement
+        inputHiddenHTML.value = '';
+        inputTituloRecadoHTML.value = '';
+        inputDescricaoRecadoHTML.value = '';
     })
 })
 
-
-const darkModeH = document.querySelector("#toggleButton")as HTMLButtonElement;
-
-darkModeH.addEventListener("click", () => {
-    // document.body.classList.toggle('dark-theme');
-    
-    const modo = localStorage.getItem('dark') || ""
-
-    if(modo === 'false'){
-        document.body.classList.add('dark-theme');
-        localStorage.setItem('dark', 'true');
-    } else {
-        document.body.classList.remove('dark-theme');
-        localStorage.setItem('dark', 'false');
-    }
-
-
-
-});
-
-
-
+// ------ Botão Sair ------
 
 const btnSair = document.getElementById('btnSair')as HTMLButtonElement;
 

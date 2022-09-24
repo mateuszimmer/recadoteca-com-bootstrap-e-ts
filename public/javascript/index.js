@@ -1,6 +1,9 @@
 "use strict";
+// ------ Carrega modais Bootstrap
 const myModal = new bootstrap.Modal("#modalCriarConta");
 const myModalSucess = new bootstrap.Modal("#modalContaCriadaComSucesso");
+// ------ Modo Dark
+// ------ Ao inicializar
 const modoDar = localStorage.getItem('dark') || "";
 if (modoDar === 'true') {
     document.body.classList.add('dark-theme');
@@ -10,17 +13,26 @@ else {
     document.body.classList.remove('dark-theme');
     localStorage.setItem('dark', 'false');
 }
+// ------ Botão modo dark
+const darkMode = document.querySelector("#toggleButton");
+darkMode.addEventListener("click", () => {
+    const modo = localStorage.getItem('dark') || "";
+    if (modo === 'false') {
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('dark', 'true');
+    }
+    else {
+        document.body.classList.remove('dark-theme');
+        localStorage.setItem('dark', 'false');
+    }
+});
+// Ao acessar a página, verificar se há usuário logado. Se sim, direcionar para a home.
 document.addEventListener('DOMContentLoaded', () => {
     if (localStorage.getItem('usuarioLogado')) {
         location.assign('home.html');
     }
 });
-/*
-Acesso:
-1. Verificação de há usuário e senha (se conferem)
-2. Se não, aparecer mensagem
-3. Se sim, logar e carregar a key usuário logado
-*/
+// ------ Login ------
 const formularioLoginHTML = document.getElementById('formEntrar');
 formularioLoginHTML.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -49,22 +61,17 @@ function logarUsuario() {
     localStorage.setItem('indiceUsuarioLogado', JSON.stringify(indexUsuarioLogado));
     window.location.assign('home.html');
 }
-/*
-Cadastrar usuário:
-1. Verificações (senhas iguais)
-2. Verificar se já existe nome de usuário na lista do localStorage;
-3. Cadastro do usuário na lista de usuários no localStorage;
-4. Limpar campos;
-5. Mensagem de usuário cadastrado;
-*/
+// ------ Cadastro novo usuário ----
 const formularioCadastroHTML = document.getElementById('formulario-cadastro');
 formularioCadastroHTML.addEventListener('submit', (e) => {
     e.preventDefault();
     cadastrarNovoUsuario();
 });
-const botaoFecharModalHTML = document.getElementById('botaoFecharModal');
-botaoFecharModalHTML.addEventListener('click', () => {
-    formularioCadastroHTML.reset();
+const botoesFecharModalHTML = document.querySelectorAll('.botaoFecarModalCadastro');
+botoesFecharModalHTML.forEach((botao) => {
+    botao.addEventListener('click', () => {
+        formularioCadastroHTML.reset();
+    });
 });
 function cadastrarNovoUsuario() {
     const inputUsuarioCadastroHTML = document.getElementById('usuarioCadastro');
@@ -73,8 +80,6 @@ function cadastrarNovoUsuario() {
     const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
     const usuariosLocalStorage = carregaListaUsuariosLocalStorage();
     const jaExisteUsuario = usuariosLocalStorage.some((e) => e.usuario === inputUsuarioCadastroHTML.value);
-    console.log(`usuariosLocalStorage: ${usuariosLocalStorage}`);
-    console.log(`inputUsuárioCadastroHTML: ${inputUsuarioCadastroHTML.value}`);
     if (jaExisteUsuario) {
         alertPlaceholder.innerHTML = "";
         const wrapper = document.createElement('div');
@@ -85,7 +90,7 @@ function cadastrarNovoUsuario() {
         alertPlaceholder.append(wrapper);
         setTimeout(() => {
             alertPlaceholder.innerHTML = "";
-        }, 2000);
+        }, 3000);
         return;
     }
     if (inputSenhaCadastroHTML.value !== inputConfirmaSenhaCadastroHTML.value) {
@@ -98,7 +103,7 @@ function cadastrarNovoUsuario() {
         alertPlaceholder.append(wrapper);
         setTimeout(() => {
             alertPlaceholder.innerHTML = "";
-        }, 2000);
+        }, 3000);
         return;
     }
     const novoUsuario = {
@@ -106,29 +111,15 @@ function cadastrarNovoUsuario() {
         senha: inputSenhaCadastroHTML.value,
         recados: []
     };
-    console.log(`usuarios localStorage antes do push: ${usuariosLocalStorage}`);
     usuariosLocalStorage.push(novoUsuario);
-    console.log(`usuarios localStorage depois do push: ${usuariosLocalStorage}`);
     const myModalSucess = new bootstrap.Modal("#modalContaCriadaComSucesso");
     myModal.toggle();
     myModalSucess.toggle();
     formularioCadastroHTML.reset();
     localStorage.setItem('usuariosLocalStorage', JSON.stringify(usuariosLocalStorage));
 }
+// ------------
 function carregaListaUsuariosLocalStorage() {
     const listaUsuariosLocalStorage = JSON.parse(localStorage.getItem('usuariosLocalStorage') || '[]');
     return listaUsuariosLocalStorage;
 }
-const darkMode = document.querySelector("#toggleButton");
-darkMode.addEventListener("click", () => {
-    // document.body.classList.toggle('dark-theme');
-    const modo = localStorage.getItem('dark') || "";
-    if (modo === 'false') {
-        document.body.classList.add('dark-theme');
-        localStorage.setItem('dark', 'true');
-    }
-    else {
-        document.body.classList.remove('dark-theme');
-        localStorage.setItem('dark', 'false');
-    }
-});

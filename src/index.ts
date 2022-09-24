@@ -1,7 +1,10 @@
+// ------ Carrega modais Bootstrap
+
 const myModal = new bootstrap.Modal("#modalCriarConta");
 const myModalSucess = new bootstrap.Modal("#modalContaCriadaComSucesso");
 
-
+// ------ Modo Dark
+// ------ Ao inicializar
 const modoDar = localStorage.getItem('dark') || ""
 
 if(modoDar === 'true'){
@@ -12,20 +15,24 @@ if(modoDar === 'true'){
     localStorage.setItem('dark', 'false');
 }
 
+// ------ Botão modo dark
+const darkMode = document.querySelector("#toggleButton")as HTMLButtonElement;
 
+darkMode.addEventListener("click", () => {
 
+    const modo = localStorage.getItem('dark') || ""
 
+    if(modo === 'false'){
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('dark', 'true');
+    } else {
+        document.body.classList.remove('dark-theme');
+        localStorage.setItem('dark', 'false');
+    }
 
+});
 
-
-
-
-
-
-
-
-
-// Ao acessar a página, verificar se há usuário logado. Se sim, direcionar para a home.
+// ------ Interfaces utilizadas
 
 interface Usuario {
     usuario: string,
@@ -38,18 +45,15 @@ interface Recado {
     descricao: string
 }
 
+// Ao acessar a página, verificar se há usuário logado. Se sim, direcionar para a home.
+
 document.addEventListener('DOMContentLoaded', ():void => {
     if(localStorage.getItem('usuarioLogado')){
         location.assign('home.html')
     }
 })
 
-/*
-Acesso: 
-1. Verificação de há usuário e senha (se conferem) 
-2. Se não, aparecer mensagem
-3. Se sim, logar e carregar a key usuário logado
-*/
+// ------ Login ------
 
 const formularioLoginHTML = document.getElementById('formEntrar') as HTMLFormElement
 
@@ -84,27 +88,19 @@ function logarUsuario() {
     window.location.assign('home.html')
 }
 
+// ------ Cadastro novo usuário ----
 
-
-
-
-/*
-Cadastrar usuário:
-1. Verificações (senhas iguais)
-2. Verificar se já existe nome de usuário na lista do localStorage;
-3. Cadastro do usuário na lista de usuários no localStorage;
-4. Limpar campos;
-5. Mensagem de usuário cadastrado;
-*/
 const formularioCadastroHTML = document.getElementById('formulario-cadastro') as HTMLFormElement
 formularioCadastroHTML.addEventListener('submit', (e):void => {
     e.preventDefault();
     cadastrarNovoUsuario();
 })
 
-const botaoFecharModalHTML = document.getElementById('botaoFecharModal') as HTMLButtonElement
-botaoFecharModalHTML.addEventListener('click', ():void => {
-    formularioCadastroHTML.reset()
+const botoesFecharModalHTML = document.querySelectorAll('.botaoFecarModalCadastro') as NodeListOf<Element>
+botoesFecharModalHTML.forEach((botao) => {
+    botao.addEventListener('click', ():void => {
+        formularioCadastroHTML.reset()
+    })
 })
 
 function cadastrarNovoUsuario(): void{
@@ -115,9 +111,6 @@ function cadastrarNovoUsuario(): void{
         
         const usuariosLocalStorage: Usuario[] = carregaListaUsuariosLocalStorage();
         const jaExisteUsuario: boolean = usuariosLocalStorage.some((e: Usuario) => e.usuario === inputUsuarioCadastroHTML.value);
-        
-        console.log(`usuariosLocalStorage: ${usuariosLocalStorage}`)
-        console.log(`inputUsuárioCadastroHTML: ${inputUsuarioCadastroHTML.value}`)
 
         if(jaExisteUsuario){
             alertPlaceholder.innerHTML = "";
@@ -130,7 +123,7 @@ function cadastrarNovoUsuario(): void{
 
             setTimeout(()=>{
                 alertPlaceholder.innerHTML = "";
-            },2000)
+            },3000)
             return;
         }
     
@@ -145,7 +138,7 @@ function cadastrarNovoUsuario(): void{
 
             setTimeout(()=>{
                 alertPlaceholder.innerHTML = "";
-            },2000)
+            },3000)
             return;
         }
 
@@ -155,9 +148,7 @@ function cadastrarNovoUsuario(): void{
             recados: []
         }
         
-        console.log(`usuarios localStorage antes do push: ${usuariosLocalStorage}`)
         usuariosLocalStorage.push(novoUsuario);
-        console.log(`usuarios localStorage depois do push: ${usuariosLocalStorage}`)
         
         const myModalSucess = new bootstrap.Modal("#modalContaCriadaComSucesso");
         myModal.toggle();
@@ -166,31 +157,11 @@ function cadastrarNovoUsuario(): void{
         formularioCadastroHTML.reset();
         
         localStorage.setItem('usuariosLocalStorage',JSON.stringify(usuariosLocalStorage));
-
 }
 
+// ------------
 
 function carregaListaUsuariosLocalStorage(): Usuario[] {
     const listaUsuariosLocalStorage: Usuario[] = JSON.parse(localStorage.getItem('usuariosLocalStorage') || '[]')
     return listaUsuariosLocalStorage
 }
-
-
-
-
-const darkMode = document.querySelector("#toggleButton")as HTMLButtonElement;
-
-darkMode.addEventListener("click", () => {
-    // document.body.classList.toggle('dark-theme');
-
-    const modo = localStorage.getItem('dark') || ""
-
-    if(modo === 'false'){
-        document.body.classList.add('dark-theme');
-        localStorage.setItem('dark', 'true');
-    } else {
-        document.body.classList.remove('dark-theme');
-        localStorage.setItem('dark', 'false');
-    }
-
-});
