@@ -10,11 +10,11 @@ else {
     document.body.classList.remove('dark-theme');
     localStorage.setItem('dark', 'false');
 }
-// document.addEventListener('DOMContentLoaded', ():void => {
-//     if(localStorage.getItem('usuarioLogado')){
-//         location.assign('home.html')
-//     }
-// })
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('usuarioLogado')) {
+        location.assign('home.html');
+    }
+});
 /*
 Acesso:
 1. Verificação de há usuário e senha (se conferem)
