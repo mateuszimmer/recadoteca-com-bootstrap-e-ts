@@ -1,11 +1,20 @@
 "use strict";
 const myModal = new bootstrap.Modal("#modalCriarConta");
 const myModalSucess = new bootstrap.Modal("#modalContaCriadaComSucesso");
-document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('usuarioLogado')) {
-        location.assign('home.html');
-    }
-});
+const modoDar = localStorage.getItem('dark') || "";
+if (modoDar === 'true') {
+    document.body.classList.add('dark-theme');
+    localStorage.setItem('dark', 'true');
+}
+else {
+    document.body.classList.remove('dark-theme');
+    localStorage.setItem('dark', 'false');
+}
+// document.addEventListener('DOMContentLoaded', ():void => {
+//     if(localStorage.getItem('usuarioLogado')){
+//         location.assign('home.html')
+//     }
+// })
 /*
 Acesso:
 1. Verificação de há usuário e senha (se conferem)
@@ -24,7 +33,6 @@ function logarUsuario() {
     const alertaErroLoginHTML = document.getElementById('alertaErroLogin');
     const usuarioLogado = usuariosLocalStorage.find((user) => user.usuario === inputUsuarioLoginHTML.value);
     if (!usuarioLogado || usuarioLogado.senha !== inputSenhaLoginHTML.value) {
-        formularioLoginHTML.reset();
         alertaErroLoginHTML.innerHTML = "";
         const wrapper = document.createElement('div');
         wrapper.innerHTML = [
@@ -37,6 +45,9 @@ function logarUsuario() {
         return;
     }
     const indexUsuarioLogado = usuariosLocalStorage.findIndex((user) => user.usuario === inputUsuarioLoginHTML.value);
+    localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+    localStorage.setItem('indiceUsuarioLogado', JSON.stringify(indexUsuarioLogado));
+    window.location.assign('home.html');
 }
 /*
 Cadastrar usuário:
@@ -50,6 +61,10 @@ const formularioCadastroHTML = document.getElementById('formulario-cadastro');
 formularioCadastroHTML.addEventListener('submit', (e) => {
     e.preventDefault();
     cadastrarNovoUsuario();
+});
+const botaoFecharModalHTML = document.getElementById('botaoFecharModal');
+botaoFecharModalHTML.addEventListener('click', () => {
+    formularioCadastroHTML.reset();
 });
 function cadastrarNovoUsuario() {
     const inputUsuarioCadastroHTML = document.getElementById('usuarioCadastro');
@@ -74,7 +89,6 @@ function cadastrarNovoUsuario() {
         return;
     }
     if (inputSenhaCadastroHTML.value !== inputConfirmaSenhaCadastroHTML.value) {
-        formularioCadastroHTML.reset();
         alertPlaceholder.innerHTML = "";
         const wrapper = document.createElement('div');
         wrapper.innerHTML = `
@@ -105,3 +119,16 @@ function carregaListaUsuariosLocalStorage() {
     const listaUsuariosLocalStorage = JSON.parse(localStorage.getItem('usuariosLocalStorage') || '[]');
     return listaUsuariosLocalStorage;
 }
+const darkMode = document.querySelector("#toggleButton");
+darkMode.addEventListener("click", () => {
+    // document.body.classList.toggle('dark-theme');
+    const modo = localStorage.getItem('dark') || "";
+    if (modo === 'false') {
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('dark', 'true');
+    }
+    else {
+        document.body.classList.remove('dark-theme');
+        localStorage.setItem('dark', 'false');
+    }
+});

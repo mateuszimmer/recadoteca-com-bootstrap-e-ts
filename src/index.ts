@@ -1,17 +1,41 @@
 const myModal = new bootstrap.Modal("#modalCriarConta");
 const myModalSucess = new bootstrap.Modal("#modalContaCriadaComSucesso");
 
+
+const modoDar = localStorage.getItem('dark') || ""
+
+if(modoDar === 'true'){
+    document.body.classList.add('dark-theme');
+    localStorage.setItem('dark', 'true');
+} else {
+    document.body.classList.remove('dark-theme');
+    localStorage.setItem('dark', 'false');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Ao acessar a página, verificar se há usuário logado. Se sim, direcionar para a home.
 
 interface Usuario {
     usuario: string,
     senha: string,
-    recados: Array<Recado>
+    recados: Recado[]
 }
 
 interface Recado {
-    descricao: string,
-    detalhamento: string
+    titulo: string,
+    descricao: string
 }
 
 document.addEventListener('DOMContentLoaded', ():void => {
@@ -37,13 +61,11 @@ formularioLoginHTML.addEventListener('submit', (e) => {
 function logarUsuario() {
     const inputUsuarioLoginHTML = document.getElementById('usuarioLogin') as HTMLInputElement;
     const inputSenhaLoginHTML = document.getElementById('senhaLogin') as HTMLInputElement;
-    const usuariosLocalStorage: Array<Usuario> = carregaListaUsuariosLocalStorage();
+    const usuariosLocalStorage: Usuario[] = carregaListaUsuariosLocalStorage();
     const alertaErroLoginHTML = document.getElementById('alertaErroLogin') as HTMLDivElement
-
-    const usuarioLogado = usuariosLocalStorage.find((user) => user.usuario === inputUsuarioLoginHTML.value)
+    const usuarioLogado: Usuario | undefined = usuariosLocalStorage.find((user) => user.usuario === inputUsuarioLoginHTML.value)
     
     if(!usuarioLogado || usuarioLogado.senha !== inputSenhaLoginHTML.value){
-        formularioLoginHTML.reset();
         alertaErroLoginHTML.innerHTML = "";
         const wrapper = document.createElement('div');
         wrapper.innerHTML = [
@@ -56,11 +78,10 @@ function logarUsuario() {
         return;
     }
     
-    const indexUsuarioLogado = usuariosLocalStorage.findIndex((user) => user.usuario === inputUsuarioLoginHTML.value)
-    
-
-
-
+    const indexUsuarioLogado: Number = usuariosLocalStorage.findIndex((user) => user.usuario === inputUsuarioLoginHTML.value)
+    localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
+    localStorage.setItem('indiceUsuarioLogado', JSON.stringify(indexUsuarioLogado))
+    window.location.assign('home.html')
 }
 
 
@@ -76,11 +97,15 @@ Cadastrar usuário:
 5. Mensagem de usuário cadastrado;
 */
 const formularioCadastroHTML = document.getElementById('formulario-cadastro') as HTMLFormElement
-formularioCadastroHTML.addEventListener('submit', (e) => {
+formularioCadastroHTML.addEventListener('submit', (e):void => {
     e.preventDefault();
     cadastrarNovoUsuario();
 })
 
+const botaoFecharModalHTML = document.getElementById('botaoFecharModal') as HTMLButtonElement
+botaoFecharModalHTML.addEventListener('click', ():void => {
+    formularioCadastroHTML.reset()
+})
 
 function cadastrarNovoUsuario(): void{
         const inputUsuarioCadastroHTML = document.getElementById('usuarioCadastro') as HTMLInputElement;
@@ -88,7 +113,7 @@ function cadastrarNovoUsuario(): void{
         const inputConfirmaSenhaCadastroHTML = document.getElementById('confirmaSenha') as HTMLInputElement;
         const alertPlaceholder = document.getElementById('liveAlertPlaceholder') as HTMLDivElement;
         
-        const usuariosLocalStorage: Array<Usuario> = carregaListaUsuariosLocalStorage();
+        const usuariosLocalStorage: Usuario[] = carregaListaUsuariosLocalStorage();
         const jaExisteUsuario: boolean = usuariosLocalStorage.some((e: Usuario) => e.usuario === inputUsuarioCadastroHTML.value);
         
         console.log(`usuariosLocalStorage: ${usuariosLocalStorage}`)
@@ -110,7 +135,6 @@ function cadastrarNovoUsuario(): void{
         }
     
         if (inputSenhaCadastroHTML.value !== inputConfirmaSenhaCadastroHTML.value){
-            formularioCadastroHTML.reset();
             alertPlaceholder.innerHTML = "";
             const wrapper = document.createElement('div');
             wrapper.innerHTML= `
@@ -146,7 +170,27 @@ function cadastrarNovoUsuario(): void{
 }
 
 
-function carregaListaUsuariosLocalStorage(): Array<Usuario> {
-    const listaUsuariosLocalStorage: Array<Usuario> = JSON.parse(localStorage.getItem('usuariosLocalStorage') || '[]')
+function carregaListaUsuariosLocalStorage(): Usuario[] {
+    const listaUsuariosLocalStorage: Usuario[] = JSON.parse(localStorage.getItem('usuariosLocalStorage') || '[]')
     return listaUsuariosLocalStorage
 }
+
+
+
+
+const darkMode = document.querySelector("#toggleButton")as HTMLButtonElement;
+
+darkMode.addEventListener("click", () => {
+    // document.body.classList.toggle('dark-theme');
+
+    const modo = localStorage.getItem('dark') || ""
+
+    if(modo === 'false'){
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('dark', 'true');
+    } else {
+        document.body.classList.remove('dark-theme');
+        localStorage.setItem('dark', 'false');
+    }
+
+});

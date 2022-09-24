@@ -12,3 +12,40 @@ body {
     font-family: Roboto;
     text-transform: uppercase;
 }
+.tema-imagem {
+    width: 40px;
+    transition: .5s;
+    cursor: pointer;
+    border-radius: 50%;
+    
+}
+.tema-btn {
+    background-color: transparent;
+    border: none;
+}
+.dark-theme .tema-imagem {
+    transform: rotate(-180deg);
+}
+.dark-theme {
+    background: linear-gradient(236.85deg, #333439 40.97%, #333439 59.03%);
+
+}
+.dark-theme .divTbaleDark{
+    background-color: #363636 !important;
+}
+.dark-theme .divHead{
+    background-color: #fff !important ;
+    color:black !important;
+}
+.dark-theme .divTable{
+    background-color: #363636 !important;
+    box-shadow: 0px 0px 20px 20px rgba(0, 0, 0, 0.473) !important;
+}
+.dark-theme td{
+    color:#fff;
+}
+.dark-theme .btnDark{
+    background-color: transparent;
+    border:1px solid #fff;
+    color: #fff;
+}

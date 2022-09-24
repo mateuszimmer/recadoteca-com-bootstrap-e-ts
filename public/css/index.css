@@ -11,9 +11,33 @@ body{
 
 .br-20{
     border-radius: 20px !important;
-}
+   }
 
 .titulo {
     font-family: Roboto;
     text-transform: uppercase;
+}
+.tema-imagem {
+    width: 40px;
+    transition: .5s;
+    cursor: pointer;
+    border-radius: 50%;
+    
+}
+.tema-btn {
+    background-color: transparent;
+    border: none;
+}
+.dark-theme .tema-imagem {
+    transform: rotate(-180deg);
+}
+.dark-theme {
+    background: linear-gradient(236.85deg, #333439 40.97%, #333439 59.03%);
+   
+   
+}
+.dark-theme .mainIndex{
+    box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.473) !important;
+  background: #333439;
+  border-radius: 20px ;
 }
